@@ -59,19 +59,30 @@ def play_game_switch(stage):
     return state
 
 
-def main():
+def simulate_stay(trials):
     stay_results = []
-    for idx in range(1000):
+    for idx in range(trials):
         stage = set_stage()
         state = play_game_stay(stage)
         stay_results.append(state)
-    print("Stay strategy win percentage: {}%".format(
-        round((sum(stay_results) / len(stay_results) * 100), 2)))
+    return stay_results
+
+
+def simulate_switch(trials):
     switch_results = []
-    for idx in range(1000):
+    for idx in range(trials):
         stage = set_stage()
         state = play_game_switch(stage)
         switch_results.append(state)
+    return switch_results
+
+
+def main():
+    trials = 1000
+    stay_results = simulate_stay(trials)
+    print("Stay strategy win percentage: {}%".format(
+        round((sum(stay_results) / len(stay_results) * 100), 2)))
+    switch_results = simulate_switch(trials)
     print("Switch strategy win percentage: {}%".format(
         round((sum(switch_results) / len(switch_results) * 100), 2)))
 
