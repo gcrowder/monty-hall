@@ -1,13 +1,27 @@
 import random
 
+"""Proves switch strategy for Monty Hall Problem"""
+
 
 def set_stage():
+    """Create, shuffle, and return list of choices for Monty Hall Problem."""
     stage = ['goat', 'goat', 'Cadillac']
     random.shuffle(stage)
     return stage
 
 
+def play_game_stay(stage):
+    """Compare random choice to choice list. Return 1 for Win. 0 for Loss."""
+    player_guess = random.randint(0, 2)
+    if stage[player_guess] == 'Cadillac':
+        state = 1
+    else:
+        state = 0
+    return state
+
+
 def set_montys_stage(stage, player_guess):
+    """Create list of valid choices for monty to choose from."""
     montys_stage = []
     for index, item in enumerate(stage):
         if index == player_guess:
@@ -18,32 +32,15 @@ def set_montys_stage(stage, player_guess):
     return montys_stage
 
 
-def play_game_stay(stage):
-    player_guess = random.randint(0, 2)
-    # montys_stage = set_montys_stage(stage, player_guess)
-    # if stage[montys_stage[0]] == 'Cadillac':
-    #     montys_door = montys_stage[1]
-    # else:
-    #     montys_door = montys_stage[0]
-    # player stays with initial choice
-    if stage[player_guess] == 'Cadillac':
-        state = 1
-    else:
-        state = 0
-    # print("Stage: {} Player Guess: {} Monty's Door: {}".format(
-    #     stage, player_guess, montys_door))
-    return state
-
-
 def play_game_switch(stage):
+    """Player switches to unopened door. Return 1 for Win. 0 for Loss."""
     player_guess = random.randint(0, 2)
     montys_stage = set_montys_stage(stage, player_guess)
     if stage[montys_stage[0]] == 'Cadillac':
         montys_door = montys_stage[1]
     else:
         montys_door = montys_stage[0]
-    # player switches to the other unopened door
-    for index, item in enumerate(stage):
+    for index, item in enumerate(stage):  # player switches to unopened door
         if player_guess == index:
             continue
         elif montys_door == index:
@@ -60,6 +57,7 @@ def play_game_switch(stage):
 
 
 def simulate_stay(trials):
+    """For given number of trials, return list of results for stay strategy."""
     stay_results = []
     for idx in range(trials):
         stage = set_stage()
@@ -69,6 +67,7 @@ def simulate_stay(trials):
 
 
 def simulate_switch(trials):
+    """For given number of trials, return results for switch strategy."""
     switch_results = []
     for idx in range(trials):
         stage = set_stage()
